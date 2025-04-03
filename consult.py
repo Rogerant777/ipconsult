@@ -3,6 +3,7 @@ import sys
 from colorama import Fore, Style
 import os
 
+
 while True:
     print('')   
     print('')    
@@ -75,22 +76,31 @@ while True:
            print('- Comando inválido.')
        
     elif i == '4':
-        print('[1]Prosseguir;')
+        print(f'{Fore.GREEN}[1]Prosseguir;{Style.RESET_ALL}')
         print('[0]Caso não tenha instalado o WHOIS, sujeito a ocorrer erros(Fechar);')
 
         m = input('- ')
 
         try:
             if m =='1':
-                ipe = input('Digite seu IP. Ex: 192.168.0.10 -  ')
-                re = requests.get(f'https://ipinfo.io/{ipe}/json')
+                print('Digite seu IP. Ex: 192.168.0.10')
+                per = input('- ')
+
+                re = requests.get(f'https://ipinfo.io/{per}/json')
                 da = re.json()
-                print('  ')
-                print('ip:', da.get('ip'))
-                print('WHOIS:')
-                print('####################################')
-                print(os.system(f'whois -H {ipe}'))
                 
+                if per in da:
+                    ipe = da['ip']                  
+                    print('  ')
+                    print('ip:', ipe)
+                    print(f'{Fore.GREEN}WHOIS:{Style.RESET_ALL}')
+                    print('####################################')
+                    try:
+                        print(os.system(f'whois -H {ipe}'))
+                    except ValueError:
+                        print('- Falha')
+                else:
+                    print('IP inválido/ Falha')
     
 
                 
