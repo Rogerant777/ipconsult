@@ -89,7 +89,7 @@ while True:
                 re = requests.get(f'https://ipinfo.io/{per}/json')
                 da = re.json()
                 
-                if per in da:
+                if 'ip' in da and da['ip'] == per:
                     ipe = da['ip']                  
                     print('  ')
                     print('ip:', ipe)
@@ -97,8 +97,8 @@ while True:
                     print('####################################')
                     try:
                         print(os.system(f'whois -H {ipe}'))
-                    except ValueError:
-                        print('- Falha')
+                    except Exception as e:
+                        print('- Falha:', e)
                 else:
                     print('IP inválido/ Falha')
     
